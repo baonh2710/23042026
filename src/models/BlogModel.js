@@ -26,14 +26,22 @@ const blogDefinition = {
 };
 
 const blogSchema = new mongoose.Schema(blogDefinition, { timestamps: true });
-blogSchema.statics.showAllPost = async function () {
-  return await this.find();
+blogSchema.statics.showAllPosts = async function (query) {
+  return await this.find(query);
 };
 blogSchema.statics.showPostById = async function (id) {
   return await this.findById(id);
 };
-blogSchema.statics.
-
+blogSchema.statics.saveNewPost = async function (post) {
+  const newPost = new this(post);
+  return await newPost.save();
+};
+blogSchema.statics.updatePostById = async function (id, updateData) {
+  return await this.findByIdAndUpdate(id, updateData, { new: true });
+};
+blogSchema.statics.deletePostById = async function (id) {
+  return await this.findByIdAndDelete(id);
+};
 const Post = mongoose.model("Post", blogSchema);
-Post.find;
+
 module.exports = Post;
